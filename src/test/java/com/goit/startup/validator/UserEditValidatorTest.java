@@ -1,20 +1,15 @@
 package com.goit.startup.validator;
 
-import com.goit.startup.entity.Startup;
 import com.goit.startup.entity.User;
-import com.goit.startup.repository.UserRepository;
 import com.goit.startup.service.UserService;
 import com.goit.startup.service.UserServiceImpl;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.Errors;
 
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -30,7 +25,7 @@ public class UserEditValidatorTest {
     /**
      * An instance of implementation {@link UserService} interface.
      */
-    private  UserService userService;
+    private UserService userService;
 
     /**
      * An instance of  {@link Errors} class.
@@ -83,7 +78,7 @@ public class UserEditValidatorTest {
     }
 
     @Test
-    public void validateExistNameAndDifferentId() throws Exception {
+    public void validateDifferentIdAndExeption() throws Exception {
 
         user.setUsername("Tester");
         user.setId(1L);
@@ -91,11 +86,12 @@ public class UserEditValidatorTest {
         user2.setUsername("Tester");
         user2.setId(2L);
 
-        when(userService.getByUsername("Tester")).thenReturn(user2).thenThrow(new UsernameNotFoundException (""));
+        when(userService.getByUsername("Tester")).thenReturn(user2).thenThrow(new UsernameNotFoundException(""));
         when(userService.loadUserByUsername("Tester")).thenReturn(user2);
         userEditValidator.validate(user, errors);
         userEditValidator.validate(user, errors);
         verify(errors, times(2)).rejectValue("username", "Required", null, null);
+        verify(errors, times(1)).rejectValue("username", "Duplicate.user.username");
     }
 
 
@@ -105,8 +101,8 @@ public class UserEditValidatorTest {
         Field maxUsernameLength = refValidator.getDeclaredField("maxUsernameLength");
         minUsernameLength.setAccessible(true);
         maxUsernameLength.setAccessible(true);
-        minUsernameLength.setInt(userEditValidator,4);
-        maxUsernameLength.setInt(userEditValidator,16);
+        minUsernameLength.setInt(userEditValidator, 4);
+        maxUsernameLength.setInt(userEditValidator, 16);
     }
 
 }
