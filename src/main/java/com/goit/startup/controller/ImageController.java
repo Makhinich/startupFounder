@@ -93,7 +93,8 @@ public class ImageController {
      * @throws IOException      in case of problems with input/output.
      */
     @RequestMapping(value = "/uploadUserImage/{userId}/{imageId}", method = RequestMethod.POST)
-    public String uploadUserImage(@RequestParam("file") MultipartFile file, @PathVariable("userId") long userId,
+    public String uploadUserImage(@RequestParam("file") MultipartFile file,
+                                  @PathVariable("userId") long userId,
                                   @PathVariable("imageId") long imageId)
             throws ServletException, IOException {
         User user = userService.get(userId);
@@ -132,10 +133,11 @@ public class ImageController {
      */
     @RequestMapping(value = "/uploadStartupImage/{startupId}/{imageId}", method = RequestMethod.POST)
     public String uploadStartupImage(@RequestParam("file") MultipartFile file,
-                                     @PathVariable("startupId") long startupId, @PathVariable("imageId") long imageId)
+                                     @PathVariable("startupId") long startupId,
+                                     @PathVariable("imageId") long imageId)
             throws ServletException, IOException {
         Startup startup = startupService.get(startupId);
-        if (!file.getContentType().equals("image/jpg") && !file.getContentType().equals("image/jpg")
+        if (!file.getContentType().equals("image/jpg") && !file.getContentType().equals("image/jpeg")
                 && !file.getContentType().equals("image/gif") && !file.getContentType().equals("image/png")) {
             throw new IllegalStateException(
                     "The file you selected is of incorrect type. An image should be .jpg, .gif or .png");
