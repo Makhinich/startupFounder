@@ -35,7 +35,6 @@ CREATE TABLE startups
   CONSTRAINT startups_ibfk_2 FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE INDEX image_id ON startups (image_id);
-CREATE INDEX startups_ibfk_2 ON startups (author_id);
 
 CREATE TABLE investments
 (
@@ -46,5 +45,3 @@ CREATE TABLE investments
   CONSTRAINT investments_ibfk_2 FOREIGN KEY (startup_id) REFERENCES startups (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT investments_ibfk_1 FOREIGN KEY (investor_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE INDEX investments_ibfk_1 ON investments (investor_id);
-CREATE INDEX investments_ibfk_2 ON investments (startup_id);

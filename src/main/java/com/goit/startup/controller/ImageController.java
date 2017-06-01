@@ -93,12 +93,15 @@ public class ImageController {
      * @throws IOException      in case of problems with input/output.
      */
     @RequestMapping(value = "/uploadUserImage/{userId}/{imageId}", method = RequestMethod.POST)
-    public String uploadUserImage(@RequestParam("file") MultipartFile file, @PathVariable("userId") long userId, @PathVariable("imageId") long imageId)
+    public String uploadUserImage(@RequestParam("file") MultipartFile file, @PathVariable("userId") long userId,
+                                  @PathVariable("imageId") long imageId)
             throws ServletException, IOException {
         User user = userService.get(userId);
         System.out.println(file.getContentType());
-        if (!file.getContentType().equals("image/jpg") && !file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/gif") && !file.getContentType().equals("image/png")) {
-            throw new IllegalStateException("The file you selected is of incorrect type. An image should be .jpg, .gif or .png");
+        if (!file.getContentType().equals("image/jpg") && !file.getContentType().equals("image/jpeg")
+                && !file.getContentType().equals("image/gif") && !file.getContentType().equals("image/png")) {
+            throw new IllegalStateException(
+                    "The file you selected is of incorrect type. An image should be .jpg, .gif or .png");
         }
         if (file.getSize() > 1024 * 100) {
             throw new IllegalStateException("The file you selected is too big. A file must be less than 100 kB.");
@@ -128,11 +131,14 @@ public class ImageController {
      * @throws IOException      in case of problems with input/output.
      */
     @RequestMapping(value = "/uploadStartupImage/{startupId}/{imageId}", method = RequestMethod.POST)
-    public String uploadStartupImage(@RequestParam("file") MultipartFile file, @PathVariable("startupId") long startupId, @PathVariable("imageId") long imageId)
+    public String uploadStartupImage(@RequestParam("file") MultipartFile file,
+                                     @PathVariable("startupId") long startupId, @PathVariable("imageId") long imageId)
             throws ServletException, IOException {
         Startup startup = startupService.get(startupId);
-        if (!file.getContentType().equals("image/jpg") && !file.getContentType().equals("image/gif") && !file.getContentType().equals("image/png")) {
-            throw new IllegalStateException("The file you selected is of incorrect type. An image should be .jpg, .gif or .png");
+        if (!file.getContentType().equals("image/jpg") && !file.getContentType().equals("image/jpg")
+                && !file.getContentType().equals("image/gif") && !file.getContentType().equals("image/png")) {
+            throw new IllegalStateException(
+                    "The file you selected is of incorrect type. An image should be .jpg, .gif or .png");
         }
         if (file.getSize() > 1024 * 1024) {
             throw new IllegalStateException("The file you selected is too big. A file must be less than 1 MB.");
